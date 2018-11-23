@@ -1,12 +1,25 @@
-const input = Array.from(document.querySelectorAll("input"));
+const input = document.querySelectorAll("input");
+let lastChecked;
 
-function myFunction(e) {
-    const checkedInputs = input.indexOf(this);
-    console.log(checkedInputs);
-
-    if (e.checked) {
-        console.log(e);
+function handleClick(e) {
+    // check if shift key was held down
+    // AND check if they are checking it
+    let inBetween = false; // flag variable
+    if (e.shiftKey && this.checked) {
+        console.log(this.checked);
+        // go ahead and do what we please
+        // loop over every single checkbox
+        input.forEach(checkbox => {
+            if (checkbox === this || checkbox === lastChecked) {
+                inBetween = !inBetween;
+            }
+            if (inBetween) {
+                checkbox.checked = true;
+            }
+        });
     }
+
+    lastChecked = this;
 }
 
-input.forEach(thatInput => thatInput.addEventListener("click", myFunction));
+input.forEach(thatInput => thatInput.addEventListener("click", handleClick));
